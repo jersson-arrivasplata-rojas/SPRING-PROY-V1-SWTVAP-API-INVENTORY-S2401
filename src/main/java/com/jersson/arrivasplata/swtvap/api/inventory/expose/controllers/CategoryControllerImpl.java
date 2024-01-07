@@ -33,11 +33,11 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @GetMapping
-    public Flux<List<CategoryResponse>> getAllCategories() {
-        return Flux.just(categoryService.getAllCategories())
-                .map(categories -> {
-                    List<CategoryResponse> categoryResponses = categoryMapper.mapCategoriesToResponses(categories);
-                    return categoryResponses;
+    public Flux<ResponseEntity<CategoryResponse>> getAllCategories() {
+       return Flux.fromIterable(categoryService.getAllCategories())
+                .map(category -> {
+                    CategoryResponse categoryResponse = categoryMapper.categoryToCategoryResponse(category);
+                    return ResponseEntity.ok(categoryResponse);
                 });
     }
 

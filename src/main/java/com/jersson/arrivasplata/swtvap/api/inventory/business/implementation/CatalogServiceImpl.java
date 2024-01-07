@@ -23,8 +23,8 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Flux<List<Catalog>> getAllCatalogs() {
-        return Flux.just(catalogRepository.findAll());
+    public Flux<Catalog> getAllCatalogs() {
+        return Flux.fromIterable(catalogRepository.findAll());
     }
 
     public Mono<Catalog> getCatalogById(Long id) {

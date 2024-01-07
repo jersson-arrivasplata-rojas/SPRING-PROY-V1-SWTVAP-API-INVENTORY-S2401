@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public interface CatalogController {
-    Flux<List<CatalogResponse>> getAllCatalogs();
+    Flux<ResponseEntity<CatalogResponse>> getAllCatalogs();
     Mono<ResponseEntity<CatalogResponse>> createCatalog(CatalogRequest catalogRequest);
     Mono<ResponseEntity<CatalogResponse>> updateCatalog(Long id, CatalogRequest catalogRequest);
     Mono<ResponseEntity<Void>> deleteCatalog(Long id);

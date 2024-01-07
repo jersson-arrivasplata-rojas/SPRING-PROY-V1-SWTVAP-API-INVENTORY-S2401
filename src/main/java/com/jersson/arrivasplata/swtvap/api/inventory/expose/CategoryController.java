@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public interface CategoryController {
-    Flux<List<CategoryResponse>> getAllCategories();
+    Flux<ResponseEntity<CategoryResponse>> getAllCategories();
     Mono<ResponseEntity<CategoryResponse>> createCategory(CategoryRequest categoryRequest);
     Mono<ResponseEntity<CategoryResponse>> updateCategory(Long id, CategoryRequest categoryRequest);
     Mono<ResponseEntity<Void>> deleteCategory(Long id);

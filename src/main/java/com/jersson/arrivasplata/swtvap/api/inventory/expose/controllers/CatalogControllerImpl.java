@@ -29,11 +29,11 @@ public class CatalogControllerImpl implements CatalogController {
     }
 
     @GetMapping
-    public Flux<List<CatalogResponse>> getAllCatalogs() {
+    public Flux<ResponseEntity<CatalogResponse>> getAllCatalogs() {
         return catalogService.getAllCatalogs()
-                .map(catalogs -> {
-                    List<CatalogResponse> catalogResponses = catalogMapper.mapCatalogsToResponses(catalogs);
-                    return catalogResponses;
+                .map(catalog -> {
+                    CatalogResponse catalogResponse = catalogMapper.catalogToCatalogResponse(catalog);
+                    return ResponseEntity.ok(catalogResponse);
                 });
     }
 
