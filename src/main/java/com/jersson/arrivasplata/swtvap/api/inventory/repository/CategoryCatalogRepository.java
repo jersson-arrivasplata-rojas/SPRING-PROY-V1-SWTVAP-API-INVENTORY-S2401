@@ -4,20 +4,18 @@ package com.jersson.arrivasplata.swtvap.api.inventory.repository;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Catalog;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Category;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.CategoryCatalog;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface CategoryCatalogRepository extends ReactiveCrudRepository<CategoryCatalog, Long> {
+import java.util.List;
 
-    Mono<CategoryCatalog> findById(Long id);
+public interface CategoryCatalogRepository extends JpaRepository<CategoryCatalog, Long> {
 
-    Mono<CategoryCatalog> save(CategoryCatalog categoryCatalog);
+    List<CategoryCatalog> findAll(); // Obtiene todos los registros
 
-    Mono<Void> deleteById(Long id);
+    void deleteById(Long id); // Elimina por ID
 
-    // Agregar métodos para encontrar catálogos por categoría y viceversa
-    Flux<Catalog> findCatalogsByCategoryId(Long categoryId);
-
-    Flux<Category> findCategoriesByCatalogId(Long catalogId);
+    List<CategoryCatalog> findByCategoryName(String categoryName); // Busca por nombre de categoría
 }

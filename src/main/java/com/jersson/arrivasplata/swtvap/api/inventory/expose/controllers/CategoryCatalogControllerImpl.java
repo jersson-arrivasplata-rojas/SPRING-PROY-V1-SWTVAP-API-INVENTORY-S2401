@@ -22,23 +22,23 @@ public class CategoryCatalogControllerImpl implements CategoryCatalogController 
 
     @GetMapping("/{id}")
     public Mono<ResponseEntity<CategoryCatalog>> getCategoryCatalogById(@PathVariable Long id) {
-        return categoryCatalogService.getCategoryCatalogById(id)
+        return categoryCatalogService.findById(id)
                 .map(categoryCatalog -> new ResponseEntity<>(categoryCatalog, HttpStatus.OK))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     public Mono<ResponseEntity<CategoryCatalog>> createCategoryCatalog(@RequestBody CategoryCatalog categoryCatalog) {
-        return categoryCatalogService.createCategoryCatalog(categoryCatalog)
+        return categoryCatalogService.save(categoryCatalog)
                 .map(newCategoryCatalog -> new ResponseEntity<>(newCategoryCatalog, HttpStatus.CREATED));
     }
 
     @PutMapping("/{id}")
     public Mono<ResponseEntity<CategoryCatalog>> updateCategoryCatalog(@PathVariable Long id, @RequestBody CategoryCatalog updatedCategoryCatalog) {
-        return categoryCatalogService.getCategoryCatalogById(id)
+        return categoryCatalogService.findById(id)
                 .flatMap(existingCategoryCatalog -> {
                     updatedCategoryCatalog.setId(id);
-                    return categoryCatalogService.updateCategoryCatalog(updatedCategoryCatalog);
+                    return categoryCatalogService.save(updatedCategoryCatalog);
                 })
                 .map(updated -> new ResponseEntity<>(updated, HttpStatus.OK))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -46,21 +46,21 @@ public class CategoryCatalogControllerImpl implements CategoryCatalogController 
 
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteCategoryCatalog(@PathVariable Long id) {
-        return categoryCatalogService.getCategoryCatalogById(id)
+        return categoryCatalogService.findById(id)
                 .flatMap(existingCategoryCatalog -> {
-                    categoryCatalogService.deleteCategoryCatalogById(id);
+                    categoryCatalogService.deleteById(id);
                     return Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT));
                 })
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
+/*
     @GetMapping("/categories/{categoryId}/catalogs")
     public Flux<Catalog> getCatalogsByCategory(@PathVariable Long categoryId) {
-        return categoryCatalogService.getCatalogsByCategory(categoryId);
+        return categoryCatalogService.findByCategoryName(categoryId);
     }
 
     @GetMapping("/catalogs/{catalogId}/categories")
     public Flux<Category> getCategoriesByCatalog(@PathVariable Long catalogId) {
         return categoryCatalogService.getCategoriesByCatalog(catalogId);
-    }
+    }*/
 }

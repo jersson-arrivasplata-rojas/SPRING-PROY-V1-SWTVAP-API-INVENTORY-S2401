@@ -7,15 +7,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface CategoryCatalogService {
-    Mono<CategoryCatalog> getCategoryCatalogById(Long id);
 
-    Mono<CategoryCatalog> createCategoryCatalog(CategoryCatalog categoryCatalog);
+    Flux<CategoryCatalog> findAll();
 
-    Mono<CategoryCatalog> updateCategoryCatalog(CategoryCatalog updatedCategoryCatalog);
+    Mono<CategoryCatalog> findById(Long id);
 
-    Mono<Void> deleteCategoryCatalogById(Long id);
+    Mono<CategoryCatalog> save(CategoryCatalog categoryCatalog);
 
-    Flux<Catalog> getCatalogsByCategory(Long categoryId);
-
-    Flux<Category> getCategoriesByCatalog(Long catalogId);
+    Mono<Void> deleteById(Long id);
+    Flux<CategoryCatalog> findByCategoryName(String categoryName);
 }

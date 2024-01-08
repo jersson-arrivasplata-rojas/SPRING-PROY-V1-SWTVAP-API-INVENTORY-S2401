@@ -19,39 +19,27 @@ public class CategoryCatalogServiceImpl implements CategoryCatalogService {
         this.categoryCatalogRepository = categoryCatalogRepository;
     }
 
-    @Override
-    public Mono<CategoryCatalog> getCategoryCatalogById(Long id) {
-        return categoryCatalogRepository.findById(id).switchIfEmpty(Mono.empty());
+
+    public Flux<CategoryCatalog> findAll() {
+        return Flux.fromIterable(categoryCatalogRepository.findAll());
     }
 
-    @Override
-    public Mono<CategoryCatalog> createCategoryCatalog(CategoryCatalog categoryCatalog) {
-        return categoryCatalogRepository.save(categoryCatalog);
+    public Mono<CategoryCatalog> findById(Long id) {
+        return Mono.justOrEmpty(categoryCatalogRepository.findById(id));
     }
 
-    @Override
-    public Mono<CategoryCatalog> updateCategoryCatalog(CategoryCatalog updatedCategoryCatalog) {
-        return categoryCatalogRepository.save(updatedCategoryCatalog);
+    public Mono<CategoryCatalog> save(CategoryCatalog categoryCatalog) {
+        return Mono.justOrEmpty(categoryCatalogRepository.save(categoryCatalog));
     }
 
-    @Override
-    public Mono<Void> deleteCategoryCatalogById(Long id) {
-        return Mono.fromRunnable(() -> categoryCatalogRepository.deleteById(id));
+    public Mono<Void> deleteById(Long id) {
+        categoryCatalogRepository.deleteById(id);
+        return Mono.empty();
     }
 
-    @Override
-    public Flux<Catalog> getCatalogsByCategory(Long categoryId) {
-        // Implementa lógica para obtener los catálogos por categoría
-        return categoryCatalogRepository.findCatalogsByCategoryId(categoryId)
-                .flatMap(catalog -> Flux.just(catalog))
-                .switchIfEmpty(Flux.empty());
+    public Flux<CategoryCatalog> findByCategoryName(String categoryName) {
+        return Flux.fromIterable(categoryCatalogRepository.findByCategoryName(categoryName));
     }
 
-    @Override
-    public Flux<Category> getCategoriesByCatalog(Long catalogId) {
-        // Implementa lógica para obtener las categorías por catálogo
-        return categoryCatalogRepository.findCategoriesByCatalogId(catalogId)
-                .flatMap(category -> Flux.just(category))
-                .switchIfEmpty(Flux.empty());
-    }
+    // Otros métodos que puedas necesitar
 }

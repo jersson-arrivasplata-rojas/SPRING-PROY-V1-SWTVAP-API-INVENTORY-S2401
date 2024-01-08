@@ -16,7 +16,7 @@ public interface CategoryCatalogController {
 
     Mono<ResponseEntity<Void>> deleteCategoryCatalog(Long id);
 
-    Flux<Catalog> getCatalogsByCategory(Long categoryId);
+    /*Flux<Catalog> getCatalogsByCategory(Long categoryId);
 
-    Flux<Category> getCategoriesByCatalog(Long catalogId);
+    Flux<Category> getCategoriesByCatalog(Long catalogId);*/
 }
