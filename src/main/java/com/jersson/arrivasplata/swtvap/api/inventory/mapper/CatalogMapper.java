@@ -11,7 +11,7 @@ import java.util.List;
 public interface CatalogMapper {
     CatalogMapper INSTANCE = Mappers.getMapper(CatalogMapper.class);
 
-    @Mapping(target = "id", ignore = true)
+    //@Mapping(target = "id", ignore = true)
     Catalog catalogRequestToCatalog(CatalogRequest catalogRequest);
 
     CatalogRequest catalogToCatalogRequest(Catalog catalog);

@@ -21,11 +21,14 @@ public class SecurityConfiguration {
     private String issuerUri;
 
     private static final String[] SECURITY_MATCHER_LIST = {
-            "/api/settings/**"
+            "/api/**"
     };
 
     private static final String[] WHITE_LIST = {
-            "/swtvap-api-setting/v3/api-docs"
+            "/swtvap-api-setting/v3/api-docs",
+            "/api/catalogs/**",
+            "/api/category-catalogs/**",
+            "/api/categories/**"
     };
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity httpSecurity) {

@@ -5,6 +5,7 @@ import com.jersson.arrivasplata.swtvap.api.inventory.expose.CategoryCatalogContr
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Catalog;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Category;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.CategoryCatalog;
+import com.jersson.arrivasplata.swtvap.api.inventory.model.CategoryResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,38 +21,45 @@ public class CategoryCatalogControllerImpl implements CategoryCatalogController 
         this.categoryCatalogService = categoryCatalogService;
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<CategoryCatalog> getAllCategoryCatalogs() {
+        return categoryCatalogService.findAll();
+    }
+
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<CategoryCatalog>> getCategoryCatalogById(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<CategoryCatalog> getCategoryCatalogById(@PathVariable Long id) {
         return categoryCatalogService.findById(id)
-                .map(categoryCatalog -> new ResponseEntity<>(categoryCatalog, HttpStatus.OK))
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(categoryCatalog -> categoryCatalog);
     }
 
     @PostMapping
-    public Mono<ResponseEntity<CategoryCatalog>> createCategoryCatalog(@RequestBody CategoryCatalog categoryCatalog) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<CategoryCatalog> createCategoryCatalog(@RequestBody CategoryCatalog categoryCatalog) {
         return categoryCatalogService.save(categoryCatalog)
-                .map(newCategoryCatalog -> new ResponseEntity<>(newCategoryCatalog, HttpStatus.CREATED));
+                .map(newCategoryCatalog -> newCategoryCatalog);
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<CategoryCatalog>> updateCategoryCatalog(@PathVariable Long id, @RequestBody CategoryCatalog updatedCategoryCatalog) {
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<CategoryCatalog> updateCategoryCatalog(@PathVariable Long id, @RequestBody CategoryCatalog updatedCategoryCatalog) {
         return categoryCatalogService.findById(id)
                 .flatMap(existingCategoryCatalog -> {
                     updatedCategoryCatalog.setId(id);
                     return categoryCatalogService.save(updatedCategoryCatalog);
                 })
-                .map(updated -> new ResponseEntity<>(updated, HttpStatus.OK))
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(updated -> updated);
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteCategoryCatalog(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> deleteCategoryCatalog(@PathVariable Long id) {
         return categoryCatalogService.findById(id)
                 .flatMap(existingCategoryCatalog -> {
                     categoryCatalogService.deleteById(id);
-                    return Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT));
-                })
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                    return Mono.empty();
+                });
     }
 /*
     @GetMapping("/categories/{categoryId}/catalogs")

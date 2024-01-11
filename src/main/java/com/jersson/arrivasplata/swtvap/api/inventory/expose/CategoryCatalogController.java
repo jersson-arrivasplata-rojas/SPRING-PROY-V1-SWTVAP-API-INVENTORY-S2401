@@ -8,13 +8,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface CategoryCatalogController {
-    Mono<ResponseEntity<CategoryCatalog>> getCategoryCatalogById(Long id);
+    Mono<CategoryCatalog> getCategoryCatalogById(Long id);
 
-    Mono<ResponseEntity<CategoryCatalog>> createCategoryCatalog(CategoryCatalog categoryCatalog);
+    Mono<CategoryCatalog> createCategoryCatalog(CategoryCatalog categoryCatalog);
 
-    Mono<ResponseEntity<CategoryCatalog>> updateCategoryCatalog(Long id, CategoryCatalog updatedCategoryCatalog);
+    Mono<CategoryCatalog> updateCategoryCatalog(Long id, CategoryCatalog updatedCategoryCatalog);
 
-    Mono<ResponseEntity<Void>> deleteCategoryCatalog(Long id);
+    Mono<Void> deleteCategoryCatalog(Long id);
 
     /*Flux<Catalog> getCatalogsByCategory(Long categoryId);
 

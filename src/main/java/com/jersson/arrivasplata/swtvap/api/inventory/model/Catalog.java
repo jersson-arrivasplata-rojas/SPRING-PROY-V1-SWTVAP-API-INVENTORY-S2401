@@ -14,7 +14,8 @@ import java.util.List;
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long catalogId;
 
     @Column(length = 50)
     private String code;
@@ -25,7 +26,7 @@ public class Catalog {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
 
     @OneToMany(mappedBy = "catalog")

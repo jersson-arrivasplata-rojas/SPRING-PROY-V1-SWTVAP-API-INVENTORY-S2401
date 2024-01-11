@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CatalogRequest {
-    private Long id;
+    private Long catalogId;
     private String code;
     private String name;
     private String description;

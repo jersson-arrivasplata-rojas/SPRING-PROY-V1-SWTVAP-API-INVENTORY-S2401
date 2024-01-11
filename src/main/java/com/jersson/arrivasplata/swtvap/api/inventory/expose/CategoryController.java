@@ -8,10 +8,11 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public interface CategoryController {
-    Flux<ResponseEntity<CategoryResponse>> getAllCategories();
-    Mono<ResponseEntity<CategoryResponse>> createCategory(CategoryRequest categoryRequest);
-    Mono<ResponseEntity<CategoryResponse>> updateCategory(Long id, CategoryRequest categoryRequest);
-    Mono<ResponseEntity<Void>> deleteCategory(Long id);
+    Flux<CategoryResponse> getAllCategories();
+    Mono<CategoryResponse> getCategoryById(Long id);
+    Mono<CategoryResponse> createCategory(CategoryRequest categoryRequest);
+    Mono<CategoryResponse> updateCategory(Long id, CategoryRequest categoryRequest);
+    Mono<Void> deleteCategory(Long id);
     Mono<ResponseEntity<String>> performUsefulOperationWithResponse();
     // Otros métodos relacionados con catalogo usando Reactor Core
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface CategoryMapper {
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
-    @Mapping(target = "id", ignore = true)
+    //@Mapping(target = "id", ignore = true)
     Category categoryRequestToCategory(CategoryRequest categoryRequest);
 
     CategoryRequest categoryToCategoryRequest(Category category);

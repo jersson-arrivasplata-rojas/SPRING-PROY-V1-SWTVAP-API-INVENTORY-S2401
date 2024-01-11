@@ -33,60 +33,61 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @GetMapping
-    public Flux<ResponseEntity<CategoryResponse>> getAllCategories() {
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<CategoryResponse> getAllCategories() {
        return Flux.fromIterable(categoryService.getAllCategories())
                 .map(category -> {
                     CategoryResponse categoryResponse = categoryMapper.categoryToCategoryResponse(category);
-                    return ResponseEntity.ok(categoryResponse);
+                    return categoryResponse;
                 });
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<CategoryResponse>> getCategoryById(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<CategoryResponse> getCategoryById(@PathVariable Long id) {
         return Mono.just(categoryService.getCategoryById(id))
                 .map(category -> {
                     CategoryResponse categoryResponse = categoryMapper.categoryToCategoryResponse(category);
-                    return ResponseEntity.ok(categoryResponse);
+                    return categoryResponse;
 
-                })
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                });
     }
 
     @PostMapping
-    public Mono<ResponseEntity<CategoryResponse>> createCategory(@RequestBody CategoryRequest categoryRequest) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<CategoryResponse> createCategory(@RequestBody CategoryRequest categoryRequest) {
         Category category = categoryMapper.categoryRequestToCategory(categoryRequest);
 
         return Mono.just(category)
                 .map(categoryService::createCategory)
                 .map(newCategory -> {
                     CategoryResponse categoryResponse = categoryMapper.categoryToCategoryResponse(newCategory);
-                    return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
+                    return categoryResponse;
                 });
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<CategoryResponse>> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
         return Mono.just(categoryService.getCategoryById(id))
                 .flatMap(existingCategory -> {
-                    categoryRequest.setId(id); // Actualizar el ID de la categoría
+                    categoryRequest.setCategoryId(id); // Actualizar el ID de la categoría
                     Category categoryUpdate = categoryMapper.categoryRequestToCategory(categoryRequest);
                     Category category = categoryService.updateCategory(categoryUpdate);
                     CategoryResponse categoryResponse = categoryMapper.categoryToCategoryResponse(category);
                     return Mono.just(categoryResponse)
-                            .map(updated -> ResponseEntity.ok(updated));
-                })
-                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+                            .map(updated -> updated);
+                });
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteCategory(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> deleteCategory(@PathVariable Long id) {
         Category existingCategory = categoryService.getCategoryById(id);
         if (existingCategory != null) {
             categoryService.deleteCategoryById(id);
-            return Mono.just(ResponseEntity.noContent().<Void>build());
-        } else {
-            return Mono.just(ResponseEntity.notFound().<Void>build());
         }
+        return Mono.empty();
     }
 
     @GetMapping("/doSomething")
