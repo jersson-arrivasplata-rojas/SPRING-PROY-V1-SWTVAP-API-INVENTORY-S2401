@@ -28,7 +28,8 @@ public class SecurityConfiguration {
             "/swtvap-api-setting/v3/api-docs",
             "/api/catalogs/**",
             "/api/category-catalogs/**",
-            "/api/categories/**"
+            "/api/categories/**",
+            "/api/units/**"
     };
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity httpSecurity) {
