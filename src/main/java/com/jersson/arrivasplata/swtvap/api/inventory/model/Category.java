@@ -1,11 +1,13 @@
 package com.jersson.arrivasplata.swtvap.api.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,7 +28,8 @@ public class Category {
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    @OneToMany(mappedBy = "category")
-    private List<CategoryCatalog> categoryCatalogs;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<CategoryCatalog> categoryCatalogs;
 }
 //(Modelo de entidad)

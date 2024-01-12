@@ -1,11 +1,15 @@
 package com.jersson.arrivasplata.swtvap.api.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,6 +33,7 @@ public class Catalog {
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    @OneToMany(mappedBy = "catalog")
-    private List<CategoryCatalog> categoryCatalogs;
+    @OneToMany(mappedBy = "catalog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<CategoryCatalog> categoryCatalogs;
 }

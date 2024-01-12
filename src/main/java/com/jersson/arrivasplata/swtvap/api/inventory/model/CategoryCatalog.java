@@ -3,6 +3,8 @@ package com.jersson.arrivasplata.swtvap.api.inventory.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Setter
@@ -15,10 +17,12 @@ public class CategoryCatalog {
     private Long id;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "catalog_id")
     private Catalog catalog;
 }
