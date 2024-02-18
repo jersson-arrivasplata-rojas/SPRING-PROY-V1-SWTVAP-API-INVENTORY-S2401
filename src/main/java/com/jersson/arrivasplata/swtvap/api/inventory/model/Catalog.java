@@ -24,7 +24,7 @@ public class Catalog {
     @Column(length = 50)
     private String code;
 
-    @Column(length = 50)
+    @Column(length = 200)
     private String name;
 
     @Column(columnDefinition = "TEXT")

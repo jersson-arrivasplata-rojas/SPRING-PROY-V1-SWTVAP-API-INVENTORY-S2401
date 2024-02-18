@@ -19,7 +19,7 @@ public class Category {
     @Column(name = "id")
     private Long categoryId;
 
-    @Column(length = 50)
+    @Column(length = 200)
     private String name;
 
     @Column(columnDefinition = "text")
