@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,4 +15,5 @@ public class UnitRequest {
     private String abbreviation;
     private BigDecimal conversionFactor;
     private Status status;
+    private LocalDate deletedAt;
 }

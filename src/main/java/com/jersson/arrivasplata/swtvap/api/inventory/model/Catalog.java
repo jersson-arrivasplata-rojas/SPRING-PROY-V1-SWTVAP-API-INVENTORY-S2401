@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,9 @@ public class Catalog {
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
+
+    @Column(name = "deleted_at")
+    private LocalDate deletedAt;
 
     @OneToMany(mappedBy = "catalog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
