@@ -1,8 +1,6 @@
 package com.jersson.arrivasplata.swtvap.api.inventory.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.inventory.business.service.CategoryCatalogService;
-import com.jersson.arrivasplata.swtvap.api.inventory.model.Catalog;
-import com.jersson.arrivasplata.swtvap.api.inventory.model.Category;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.CategoryCatalog;
 import com.jersson.arrivasplata.swtvap.api.inventory.repository.CategoryCatalogRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,13 @@
 package com.jersson.arrivasplata.swtvap.api.inventory.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.inventory.business.service.CategoryService;
+import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
 import com.jersson.arrivasplata.swtvap.api.inventory.exception.CustomException;
+import com.jersson.arrivasplata.swtvap.api.inventory.model.Catalog;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Category;
+import com.jersson.arrivasplata.swtvap.api.inventory.repository.CategoryCatalogRepository;
 import com.jersson.arrivasplata.swtvap.api.inventory.repository.CategoryRepository;
+import com.jersson.arrivasplata.swtvap.api.inventory.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +18,12 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryCatalogRepository categoryCatalogRepository;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryCatalogRepository categoryCatalogRepository) {
         this.categoryRepository = categoryRepository;
+        this.categoryCatalogRepository = categoryCatalogRepository;
     }
 
     @Override
@@ -49,12 +55,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public void deleteCategoryById(Long id) {
-        Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            categoryRepository.deleteById(id);
-        } else {
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        if (!categoryOptional.isPresent()) {
             throw new CustomException("Category not found with id: " + id);
         }
+
+        // Resto de la lógica para eliminar un catalogo
+        Category category = categoryOptional.get();
+
+        //categoryCatalogRepository.deleteByCatalogCatalogId(category.getCategoryId());
+
+        category.setStatus(Status.INACTIVE);
+        category.setDeletedAt(Common.builder().build().getCurrentDate());
+        categoryRepository.save(category);
     }
 
     public Category getCategoryByName(String name) {

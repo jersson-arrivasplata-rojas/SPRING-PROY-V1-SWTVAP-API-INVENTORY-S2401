@@ -1,9 +1,11 @@
 package com.jersson.arrivasplata.swtvap.api.inventory.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.inventory.business.service.UnitService;
+import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
 import com.jersson.arrivasplata.swtvap.api.inventory.exception.CustomException;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Unit;
 import com.jersson.arrivasplata.swtvap.api.inventory.repository.UnitRepository;
+import com.jersson.arrivasplata.swtvap.api.inventory.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -51,12 +53,17 @@ public class UnitServiceImpl implements UnitService {
 
     public Mono<Void> deleteUnitById(Long id) {
         // Lógica para eliminar una unidad
-        Optional<Unit> unit = unitRepository.findById(id);
-        if (!unit.isPresent()) {
+        Optional<Unit> unitOptional = unitRepository.findById(id);
+        if (!unitOptional.isPresent()) {
             throw new CustomException("Unit not found with id: " + id);
         }
         // Resto de la lógica para eliminar una unidad
-        unitRepository.deleteById(id);
+        Unit unit = unitOptional.get();
+
+        unit.setStatus(Status.INACTIVE);
+        unit.setDeletedAt(Common.builder().build().getCurrentDate());
+        unitRepository.save(unit);
+
         return Mono.empty();
     }
 

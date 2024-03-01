@@ -1,25 +1,29 @@
 package com.jersson.arrivasplata.swtvap.api.inventory.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.inventory.business.service.CatalogService;
+import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
 import com.jersson.arrivasplata.swtvap.api.inventory.exception.CustomException;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Catalog;
 import com.jersson.arrivasplata.swtvap.api.inventory.repository.CatalogRepository;
+import com.jersson.arrivasplata.swtvap.api.inventory.repository.CategoryCatalogRepository;
+import com.jersson.arrivasplata.swtvap.api.inventory.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CatalogServiceImpl implements CatalogService {
 
     private final CatalogRepository catalogRepository;
+    private final CategoryCatalogRepository categoryCatalogRepository;
 
     @Autowired
-    public CatalogServiceImpl(CatalogRepository catalogRepository) {
+    public CatalogServiceImpl(CatalogRepository catalogRepository, CategoryCatalogRepository categoryCatalogRepository) {
         this.catalogRepository = catalogRepository;
+        this.categoryCatalogRepository = categoryCatalogRepository;
     }
 
     @Override
@@ -52,12 +56,19 @@ public class CatalogServiceImpl implements CatalogService {
 
     public Mono<Void> deleteCatalogById(Long id) {
         // Lógica para eliminar un catalogo
-        Optional<Catalog> catalog = catalogRepository.findById(id);
-        if (!catalog.isPresent()) {
+        Optional<Catalog> catalogOptional = catalogRepository.findById(id);
+        if (!catalogOptional.isPresent()) {
             throw new CustomException("Catalog not found with id: " + id);
         }
         // Resto de la lógica para eliminar un catalogo
-        catalogRepository.deleteById(id);
+        Catalog catalog = catalogOptional.get();
+
+        //categoryCatalogRepository.deleteByCategoryCategoryId(catalog.getCatalogId());
+
+        catalog.setStatus(Status.INACTIVE);
+        catalog.setDeletedAt(Common.builder().build().getCurrentDate());
+        catalogRepository.save(catalog);
+
         return Mono.empty();
     }
 
