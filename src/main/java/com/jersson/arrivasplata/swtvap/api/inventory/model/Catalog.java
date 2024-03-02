@@ -1,6 +1,7 @@
 package com.jersson.arrivasplata.swtvap.api.inventory.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jersson.arrivasplata.swtvap.api.inventory.enums.Lang;
 import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class Catalog {
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Lang lang;
 
     @Column(name = "deleted_at")
     private LocalDate deletedAt;
