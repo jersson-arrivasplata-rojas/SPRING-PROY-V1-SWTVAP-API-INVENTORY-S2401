@@ -2,15 +2,12 @@ package com.jersson.arrivasplata.swtvap.api.inventory.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jersson.arrivasplata.swtvap.api.inventory.enums.Lang;
-import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
+import com.jersson.arrivasplata.swtvap.api.inventory.enums.StatusCatalog;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -33,7 +30,7 @@ public class Catalog {
     private String description;
 
     @Enumerated(EnumType.ORDINAL)
-    private Status status;
+    private StatusCatalog status;
 
     @Enumerated(EnumType.ORDINAL)
     private Lang lang;

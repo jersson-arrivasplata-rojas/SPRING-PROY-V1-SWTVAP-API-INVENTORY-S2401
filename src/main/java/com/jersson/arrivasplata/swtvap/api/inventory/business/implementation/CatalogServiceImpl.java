@@ -2,6 +2,7 @@ package com.jersson.arrivasplata.swtvap.api.inventory.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.inventory.business.service.CatalogService;
 import com.jersson.arrivasplata.swtvap.api.inventory.enums.Status;
+import com.jersson.arrivasplata.swtvap.api.inventory.enums.StatusCatalog;
 import com.jersson.arrivasplata.swtvap.api.inventory.exception.CustomException;
 import com.jersson.arrivasplata.swtvap.api.inventory.model.Catalog;
 import com.jersson.arrivasplata.swtvap.api.inventory.repository.CatalogRepository;
@@ -65,7 +66,7 @@ public class CatalogServiceImpl implements CatalogService {
 
         //categoryCatalogRepository.deleteByCategoryCategoryId(catalog.getCatalogId());
 
-        catalog.setStatus(Status.INACTIVE);
+        catalog.setStatus(StatusCatalog.INACTIVE);
         catalog.setDeletedAt(Common.builder().build().getCurrentDate());
         catalogRepository.save(catalog);
 
