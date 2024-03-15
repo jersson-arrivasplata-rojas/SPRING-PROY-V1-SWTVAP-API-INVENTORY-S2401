@@ -26,6 +26,12 @@ public class Category {
     @Column(columnDefinition = "text")
     private String description;
 
+    @Column(name = "name_en", length = 200)
+    private String name_en;
+
+    @Column(name = "description_en", columnDefinition = "text")
+    private String description_en;
+
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 

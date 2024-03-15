@@ -29,6 +29,12 @@ public class Catalog {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "name_en", length = 200)
+    private String name_en;
+
+    @Column(name = "description_en", columnDefinition = "TEXT")
+    private String description_en;
+
     @Enumerated(EnumType.ORDINAL)
     private StatusCatalog status;
 
